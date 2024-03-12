@@ -24,20 +24,21 @@ Minted = 0
 -- INITIAL FRAME ID
 FrameID = FrameID or Inbox[1].FrameID 
 -- INITIAL NAME
-MEMEFRAME_NAME = MEMEFRAME_NAME or Inbox[1]["MemeFrame-Name"]
+MEMEFRAME_NAME = "WHAT"
 VoteLength = 30 * 24
 
-function Man (name) 
+function Man (name)
   return string.format([[
   
   # MemeFrames: %s
 
-  Join the MemeFrame community. Mint MemeFrame Tokens using $CRED, then Stake them for voting on the Webpage to show
-    on the MemeFrame page.
+  What are memeframes? They let holders of $CRED stake and vote on their favourite content to show
+  on our community-run website. Join the fun today by getting some $CRED when you complete the quests in ao.
+  https://cookbook_ao.g8way.io/welcome/index.html
 
-  ## Meme
+  ## Meme Process
 
-  `MEME = "%s"`
+  MEME = "%s"
 
   ## Mint
 

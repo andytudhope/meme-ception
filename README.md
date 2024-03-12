@@ -1,59 +1,47 @@
-# MemeFrames
+# The Dream Meme Team
+
+![I Dreamed a dream](dream-team.png)
 
 MemeFrames are permaweb pages with a DAO _inside_. Once you launch a MemeFrame, anyone can deposit testnet $CRED to mint the DAOs native token until the cap is reached (1,000 $CRED by default). After minting, token holders can vote to change the contents of their permaweb page. Add an ARNS name to it and you have a community controlled site/app.
 
 The MemeFrame's DAO also retains the treasury of $CRED tokens used in minting. Token holders can vote to use (and grow) these however they like.
 
-## Requirements
-- Node version 20.
-- aos - `npm i -g https://get_ao.g8way.io`
-- A sense of humor.
-- $CRED to burn. They will probably all go to zero.
+## Meme-ception
 
+This particular implementation begins with a meme-within-a-meme. A meta-meme. 
 
-## Deploying
+![Meta Meme](meta-meme.jpeg)
 
-To deploy your MemeFrame clone this repo and run the following:
+Andy created a different way to stake/vote with your CRED on what code actually gets run within the community DAO/token process itself, rather than just what appears on a website. The website which explains that work and how to add code a level deeper into the `ao` matrix is the first MemeFrame here. 
 
-```sh
-aos --data src/index.html \
---tag-name MemeFrame-Name --tag-value aoWifHat \
---tag-name MemeFrame --tag-value MemeFrame \
---tag-name FrameID --tag-value {default html tx id}  \
---tag-name Content-Type --tag-value text/html
-```
+The first proposal which, at the time of writing, has 1000 votes in favour, is for a page of a poetry book stored permanently on Arweave.
 
-Then in aos:
+Contribute to our DAO by forking this repo and running it yourself, or simply by hyping up Meme-ception across all available channels. 
 
-```
-.load-blueprint token
-.load-blueprint staking
-.load process/memeframes.lua
-```
+## Staking and voting
 
-Change 'MEMEFRAME_NAME' to your preferred name unless you want your community to rally under a particularly stupid name.
-
-## User Staking and voting
-
-Set MemeFrame Address
+1. Get `aos` with 
+2. Run `aos` by simply typing `aos` in your terminal.
+3. Store our community MemeFrame in your process' memory:
 
 ```lua
-MEMEFRAME = "{Your MemeFrame Address}"
+MEMEFRAME = "JF1O362-tW01hpV7Lm3pLeSEBxcFaStQ-wqT4UzhYpw"
 ```
 
-First the users need CRED and should transfer the CRED to your MemeFrams
+4. Get some CRED by completing [Quests on `ao`](https://cookbook_ao.g8way.io/tutorials/begin/index.html).
+5. Send your CRED to us :)
 
 ```lua
 Send({Target = CRED, Action = "Transfer", Quantity = "1000", Recipient = MEMEFRAME})
 ```
 
-Stake
+6. Stake the MEME tokesn you receive when you send us CRED.
 
 ```lua
 Send({Target = MEMEFRAME, Action = "Stake", Quantity = "1000", UnstakeDelay = "1000" })
 ```
 
-Vote to change the FRAME
+7. Vote to change the frame
 
 ```lua
 Send({ Target = MEMEFRAME, Action = "Vote", Side = "yay", TXID="..." })
