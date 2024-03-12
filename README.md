@@ -2,9 +2,7 @@
 
 ![I Dreamed a dream](dream-team.png)
 
-MemeFrames are permaweb pages with a DAO _inside_. Once you launch a MemeFrame, anyone can deposit testnet $CRED to mint the DAOs native token until the cap is reached (1,000 $CRED by default). After minting, token holders can vote to change the contents of their permaweb page. Add an ARNS name to it and you have a community controlled site/app.
-
-The MemeFrame's DAO also retains the treasury of $CRED tokens used in minting. Token holders can vote to use (and grow) these however they like.
+MemeFrames are permaweb pages with a DAO _inside_. It's kinda like Intel, except much cooler.
 
 ## Meme-ception
 
