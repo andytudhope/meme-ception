@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="index.css">
   <script type="module">
-    import { connect } from "https://unpkg.com/@permaweb/aoconnect";
+    import { connect, message, result, createDataItemSigner } from "https://unpkg.com/@permaweb/aoconnect";
 
     const { dryrun } = connect();
 
@@ -83,23 +83,116 @@
         });
     }
 
-    async function getCredBalance() {
-        try {
-        const result = await dryrun({
-            process: "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc",
-            tags: [
+    async function connectWallet() {
+      if (typeof window === 'undefined' || !window.arweaveWallet) {
+        console.log('Please install the ArConnect browser extension to continue')
+        return null
+      }
+
+      try {
+        await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'SIGN_TRANSACTION', 'SIGNATURE'])
+        const address = await window.arweaveWallet.getActiveAddress()
+        displayAddress(address)
+        getBalance('cred')
+        getBalance('meme')
+      } catch (error) {
+        console.log('Error connecting to ArConnect: ', error)
+        return null
+      }
+    }
+
+    document.getElementById('connectButton').addEventListener('click', connectWallet);
+
+    function displayAddress(address) {
+      let addressDisplay = document.getElementById('address');
+      addressDisplay.textContent = `Connected Address: ${address}`;
+      if (address) {
+        connectButton.classList.add('hidden'); 
+        mintButton.style.display = 'block';
+      } else {
+        connectButton.classList.remove('hidden');
+        mintButton.style.display = 'none';
+  }
+    }
+
+    async function getBalance(name) {
+      if (name === "cred") {
+        var process = "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc"
+      } else {
+        var process = "JF1O362-tW01hpV7Lm3pLeSEBxcFaStQ-wqT4UzhYpw"
+      }
+      try {
+        const messageResponse = await message({
+          process,
+          tags: [
             { name: 'Action', value: "Balance" }
-            ]
+          ],
+          signer: createDataItemSigner(window.arweaveWallet),
         });
-        if (result) {
-            console.log(result.Messages[0].Data); 
+        const balanceMessage = messageResponse
+        try {
+            let { Messages, Error } = await result({
+                message: balanceMessage,
+                process,
+            });
+            if (Error) {
+                alert("Error fetching balances:" + Error);
+                return;
+            }
+            if (!Messages || Messages.length === 0) {
+                alert("No messages were returned from ao. Please try later.");
+                return;
+            }
+            const balanceTag = Messages[0].Tags.find((tag) => tag.name === 'Balance')
+            const balance = balanceTag ? parseFloat((balanceTag.value / 1000).toFixed(4)) : 0;
+            if (name === "cred") {
+              let credBalance = document.getElementById('credBalance');
+              credBalance.textContent = `CRED: ${balance}`;
+            } else {
+              let memeBalance = document.getElementById('memeBalance');
+              memeBalance.textContent = `MEME: ${balance}`;
+            }
+        } catch (error) {
+            alert("There was an error when loading balances: " + error)
         }
-        else
-            return 0
-        } catch (e) {
-            console.log(e)
-            return "could not fetch"
-        }
+      } catch (e) {
+          console.log(e)
+          return "could not fetch"
+      }
+    }
+
+    async function mint() {
+      try {
+          const getMintMessage = await message({
+              process: "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc",
+              tags: [
+                  { name: 'Action', value: 'Transfer' },
+                  { name: 'Quantity', value: '1000' },
+                  { name: 'Recipent', value: 'JF1O362-tW01hpV7Lm3pLeSEBxcFaStQ-wqT4UzhYpw' },
+              ],
+              signer: createDataItemSigner(window.arweaveWallet),
+          });
+          try {
+              let { Messages, Error } = await result({
+                  message: getMintMessage,
+                  process: "JF1O362-tW01hpV7Lm3pLeSEBxcFaStQ-wqT4UzhYpw",
+              });
+              if (Error) {
+                  alert("Error handling staking:" + Error);
+                  return;
+              }
+              if (!Messages || Messages.length === 0) {
+                  alert("No messages were returned from ao. Please try later.");
+                  return; 
+              }
+              alert(Messages[0].Data)
+              getBalance('meme')
+          } catch (error) {
+              alert("There was an error when staking WHAT: " + error)
+          }
+      } catch (error) {
+          alert('There was an error staking: ' + error)
+      }
     }
 
     (async () => {
@@ -121,8 +214,6 @@
         // now set what appears in the footer
         const voteData = await getVotes()
         renderVotes(voteData)
-
-        getCredBalance()
     })();
   </script>
 </head>
@@ -139,10 +230,10 @@
       <h2 class="footer-heading">Cast your vote!</h2>
       <ol>
         <li>
-          Earn some $CRED by completing the <a href="https://cookbook_ao.g8way.io/tutorials/begin/index.html" target="_blank" rel="no-opener no-referrer"> on ao</a>.
+          Earn some CRED by completing the <a href="https://cookbook_ao.g8way.io/tutorials/begin/index.html" target="_blank" rel="no-opener no-referrer">quests on ao</a>.
         </li>
         <li>
-          Swap that CRED for MEME, the token you can use to vote on what appears in the iframe above.
+          Mint MEME with your CRED.
         </li>
         <li>
           Stake your MEME with the community process.
@@ -151,7 +242,21 @@
           Vote on the URL of your dreams.
         </li>
       </ol>
-      <p id="cred-balance"></p>
+      <button id="connectButton">Connect Wallet</button>
+      <button id="mintButton">Mint 1 MEME</button>
+      <p id="address">&nbsp;</p>
+      <div class="grid-container">
+        <div class="grid-item border-right">
+          <p class="text-large" id="credBalance">
+            &nbsp;
+          </p>
+        </div>
+        <div class="grid-item">
+          <p class="text-large" id="memeBalance">
+            &nbsp;
+          </p>
+        </div>
+      </div>      
     </div>
   </div>
 </body>
