@@ -23,7 +23,7 @@ Contribute to our DAO by forking this repo and running it yourself, or simply by
 3. Store our community MemeFrame in your process' memory:
 
 ```lua
-MEMEFRAME = "JF1O362-tW01hpV7Lm3pLeSEBxcFaStQ-wqT4UzhYpw"
+MEMEFRAME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
 ```
 
 4. Get some CRED by completing [Quests on `ao`](https://cookbook_ao.g8way.io/tutorials/begin/index.html).

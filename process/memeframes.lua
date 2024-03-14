@@ -27,10 +27,10 @@ FrameID = FrameID or Inbox[1].FrameID
 MEMEFRAME_NAME = "WHAT"
 VoteLength = 30 * 24
 
-function Man (name)
+function Man ()
   return string.format([[
   
-  # MemeFrames: %s
+  # MEME-CEPTION
 
   What are memeframes? They let holders of $CRED stake and vote on their favourite content to show
   on our community-run website. Join the fun today by getting some $CRED when you complete the quests in ao.
@@ -64,7 +64,7 @@ function Man (name)
   Send({Target = MEME, Action = "Get-Votes"})
   ```
 
-]], name, ao.id)
+]], ao.id)
 end
 
 local function refund(sender, amt)
@@ -103,7 +103,7 @@ end
 Handlers.prepend("Get-Info", function (m) return m.Action == "Get-Info" end, function (m)
   Send({
     Target = m.From,
-    Data = Man(Name)
+    Data = Man()
   })
   print('Send Info to ' .. m.From)
 end)
