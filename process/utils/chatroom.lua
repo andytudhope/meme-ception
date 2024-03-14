@@ -3,8 +3,10 @@ Name = Name or "Unnamed-Chat"
 Messages = Messages or {}
 MaxReplay = MaxReplay or 5
 
-if (RequireTokens == nil) and (Balances ~= nil) then
+if (Balances ~= nil) then
     RequireTokens = true
+else
+    RequireTokens = false
 end
 
 function DispatchMessage(to, from, data, type)
@@ -70,6 +72,7 @@ Handlers.add(
     "Broadcast",
     Handlers.utils.hasMatchingTag("Action", "Broadcast"),
     function(m)
+        print("Received!")
         if RequireTokens and Balances[m.From] < 1 then
             ao.send({
                 Action = "Insufficient-Balance",

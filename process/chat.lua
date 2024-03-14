@@ -8,8 +8,8 @@ Colors = {
     gray = "\27[90m"
 }
 
-WhatDAO.Router = "LmEhGd8hV4FCMk0nTCOgPo7xgxxrxiT1xCUYAvq4mMY"
-WhatDAO.InitRoom = "AaQ3s0wXdxiIpQ_dE-D1rkqLt9RyNsIqTyT2Fudxau0"
+WhatDAO.Router = "NiX3ZuRYvUyqBTKMh2GiGr82vmgtssZn_Rpv1j5aFsQ"
+WhatDAO.InitRoom = "UlBge7woerip9oCXiwuBLA-rzQvAa-3e0prmAP9Un6s"
 WhatDAO.LastSend = WhatDAO.LastSend or WhatDAO.InitRoom
 
 WhatDAO.LastReceive = {

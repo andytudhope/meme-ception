@@ -125,7 +125,6 @@ function Meme() {
                     alert("No messages were returned from ao. Please try later.");
                     return; 
                 }
-                alert(Messages[0].Data)
                 setStakeSuccess(true)
             } catch (error) {
                 alert("There was an error when staking MEME: " + error)
@@ -139,20 +138,27 @@ function Meme() {
         const fetchBalance = async (process: string) => {
             if (address) {
                 try {
-                    const messageResponse = await dryrun({
-                        process,
-                        tags: [
-                            { name: 'Action', value: 'Balance' },
-                            { name: 'Target', value: address },
-                        ],
-                    });
-                    console.log(messageResponse)
-                    const balanceTag = messageResponse.Messages[0].Tags.find((tag: Tag) => tag.name === 'Balance')
-                    const balance = balanceTag ? parseFloat((balanceTag.value / 1000).toFixed(4)) : 0;
                     if (process === MEME) {
+                        const messageResponse = await dryrun({
+                            process,
+                            tags: [
+                                { name: 'Action', value: 'Balance' },
+                                { name: 'Recipient', value: address },
+                            ],
+                        });
+                        const balanceTag = messageResponse.Messages[0].Tags.find((tag: Tag) => tag.name === 'Balance')
+                        const balance = balanceTag ? parseFloat((balanceTag.value / 1000).toFixed(4)) : 0;
                         setMemeBalance(balance)
-                    }
-                    if (process === CRED) {
+                    } else {
+                        const messageResponse = await dryrun({
+                            process,
+                            tags: [
+                                { name: 'Action', value: 'Balance' },
+                                { name: 'Target', value: address },
+                            ],
+                        });
+                        const balanceTag = messageResponse.Messages[0].Tags.find((tag: Tag) => tag.name === 'Balance')
+                        const balance = balanceTag ? parseFloat((balanceTag.value / 1000).toFixed(4)) : 0;
                         setCredBalance(balance)
                     }
                 } catch (error) {
@@ -166,7 +172,7 @@ function Meme() {
 
 	return (
         <div>
-            <div className='md:w-1/3 h-96 my-20 md:my-40 mx-8 md:mx-auto border border-gray rounded'>
+            <div className='md:w-1/3 h-[420px] my-20 md:my-40 mx-8 md:mx-auto border border-gray rounded'>
                 {address ?
                     (
                         <div>
@@ -256,7 +262,7 @@ function Meme() {
                         <div></div>
                     )  
                 }
-                { stakeSuccess ? <div><p className='text-sm text-center'>You have staked MEME successfully. Please visit the <Link to={"/vote/"}>vote page</Link> to cast votes on different memeframes!</p></div> : <div></div>}
+                { stakeSuccess ? <div><p className='text-sm text-center my-2'>You have staked MEME successfully. Please visit the <Link className='font-bold underline' to={"/vote/"}>vote page</Link> to cast votes on different memeframes!</p></div> : <div></div>}
             </div>
             <Footer />
         </div>
