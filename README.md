@@ -6,24 +6,18 @@ MemeFrames are permaweb pages with a DAO _inside_. It's kinda like Intel, except
 
 ## Meme-ception
 
-This particular implementation begins with a meme-within-a-meme. A meta-meme. 
+It's all a meme-within-a-meme. A meta-meme. 
 
 ![Meta Meme](meta-meme.jpeg)
 
-Andy created a different way to stake/vote with your CRED on what code actually gets run within the community DAO/token process itself, rather than just what appears on a website. The website which explains that work and how to add code a level deeper into the `ao` matrix is the first MemeFrame here. 
-
-The first proposal which, at the time of writing, has 1000 votes in favour, is for a page of a poetry book stored permanently on Arweave.
-
-Contribute to our DAO by forking this repo and running it yourself, or simply by hyping up Meme-ception across all available channels. 
-
-## Staking and voting
+## How to use this
 
 1. Get `aos` with 
 2. Run `aos` by simply typing `aos` in your terminal.
 3. Store our community MemeFrame in your process' memory:
 
 ```lua
-MEMEFRAME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
+MEMEFRAME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
 ```
 
 4. Get some CRED by completing [Quests on `ao`](https://cookbook_ao.g8way.io/tutorials/begin/index.html).
@@ -33,7 +27,7 @@ MEMEFRAME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
 Send({Target = CRED, Action = "Transfer", Quantity = "1000", Recipient = MEMEFRAME})
 ```
 
-6. Stake the MEME tokesn you receive when you send us CRED.
+6. Stake the MEME tokens you receive when you send us CRED.
 
 ```lua
 Send({Target = MEMEFRAME, Action = "Stake", Quantity = "1000", UnstakeDelay = "1000" })
@@ -45,7 +39,10 @@ Send({Target = MEMEFRAME, Action = "Stake", Quantity = "1000", UnstakeDelay = "1
 Send({ Target = MEMEFRAME, Action = "Vote", Side = "yay", TXID="..." })
 ```
 
-## Need Help
+## Join the community
 
-[Support channel in AO Discord](https://discord.gg/J6kQXpdPG3)
-[Cookbook](https://cookbook_ao.g8way.io)
+You can find us chatting in super-shadowy, meme-lords only chats somewhere in `ao`. In order to do so:
+
+1. Copy the [chat.lua file](/process/chat.lua) into the same directory you're running `aos` from.
+2. Launch `aos`.
+3. Run `.load chat.lua` in your interactive console and follow the instructions to find us.

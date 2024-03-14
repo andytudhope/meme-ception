@@ -3,11 +3,11 @@ import { dryrun } from "@permaweb/aoconnect";
 
 import Footer from './Footer';
 
-const MEME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
+const MEME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
 const INITIAL_FRAME = "J_6eJSA-NZ8BnmdZVtb3vTTd1_LDVBi4_c4grV7mWGc"
 
 function Home () {
-    const [iframeSrc, setIframeSrc] = useState(`https://arweave.net/${INITIAL_FRAME}`);
+    const [iframeSrc, setIframeSrc] = useState('');
 
     useEffect(() => {
         const getWebsite = async () => {

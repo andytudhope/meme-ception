@@ -3,7 +3,7 @@ import { dryrun } from '@permaweb/aoconnect/browser';
 
 import Footer from './Footer';
 
-const MEME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
+const MEME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
 
 interface VoteItem {
     tx: string;

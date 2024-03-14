@@ -5,7 +5,7 @@ import { PermissionType } from 'arconnect'
 
 import Footer from './Footer';
 
-const MEME = "uoUzWqDrlqmoNCxR2ul-OXm7idb1tghYst3HVIT3L8U"
+const MEME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
 const CRED = "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc"
 
 const permissions: PermissionType[] = [
@@ -146,6 +146,7 @@ function Meme() {
                             { name: 'Target', value: address },
                         ],
                     });
+                    console.log(messageResponse)
                     const balanceTag = messageResponse.Messages[0].Tags.find((tag: Tag) => tag.name === 'Balance')
                     const balance = balanceTag ? parseFloat((balanceTag.value / 1000).toFixed(4)) : 0;
                     if (process === MEME) {
