@@ -69,8 +69,8 @@ Handlers.add(
     function(m)
         if Balances[m.From] == nil or tonumber(Balances[m.From]) < 1 then
             ao.send({
-                Action = "Insufficient-Balance",
-                ["Your-Balance"] = tostring(Balances[m.From])
+                Target = m.From,
+                Data = "Insufficient balance to join room",
             })
             print("Rejected user " .. m.From .. " due to insufficient balance.")
             return
