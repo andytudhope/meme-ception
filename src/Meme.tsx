@@ -172,7 +172,7 @@ function Meme() {
 
 	return (
         <div>
-            <div className='md:w-1/3 h-[420px] my-20 md:my-40 mx-8 md:mx-auto border border-gray rounded'>
+            <div className='md:w-1/3 h-[450px] my-20 md:my-40 mx-8 md:mx-auto border border-gray rounded'>
                 {address ?
                     (
                         <div>

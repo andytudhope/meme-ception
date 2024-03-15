@@ -23,12 +23,7 @@ end
 function Broadcast(from, data, type)
     print("Broadcasting " .. type .. " message from "
         .. from .. ". Content:\n" .. data)
-    local lastUsers = {}
-    -- only broadcast to the users of the last 100 messages
-    for i=#Messages - 100, #Messages, 1 do
-       lastUsers[Messages[i].From] = 1 
-    end
-    for user,_ in pairs(lastUsers) do
+    for user,_ in pairs(Users) do
         DispatchMessage(user, from, data, type)
     end
     table.insert(Messages, { From = from, Type = type, Data = data })
@@ -38,20 +33,20 @@ Handlers.add(
     "Register",
     Handlers.utils.hasMatchingTag("Action", "Register"),
     function(m)
-        if RequireTokens and Balances[m.From] < 1 then
-            ao.send({
-                Action = "Insufficient-Balance",
-                ["Your-Balance"] = tostring(Balances[m.From])
-            })
-            print("Rejected user " .. m.From .. " due to insufficient balance.")
-        else
-            print("Registering: " .. m.From .. ". Nick: " .. m.Nickname)
-            Users[m.From] = m.Nickname
+        if Balances[m.From] == nil or tonumber(Balances[m.From]) < 1 then
             ao.send({
                 Target = m.From,
-                Action = "Registered"
+                Data = "Insufficient balance to join room",
             })
+            print("Rejected user " .. m.From .. " due to insufficient balance.")
+            return
         end
+        print("Registering: " .. m.From .. ". Nick: " .. m.Nickname)
+        Users[m.From] = m.Nickname
+        ao.send({
+            Target = m.From,
+            Action = "Registered"
+        })
     end
 )
 
@@ -72,13 +67,13 @@ Handlers.add(
     "Broadcast",
     Handlers.utils.hasMatchingTag("Action", "Broadcast"),
     function(m)
-        print("Received!")
-        if RequireTokens and Balances[m.From] < 1 then
+        if Balances[m.From] == nil or tonumber(Balances[m.From]) < 1 then
             ao.send({
                 Action = "Insufficient-Balance",
                 ["Your-Balance"] = tostring(Balances[m.From])
             })
             print("Rejected user " .. m.From .. " due to insufficient balance.")
+            return
         end
         Broadcast(m.From, m.Data, m.Type or "Normal")
     end
