@@ -17,7 +17,7 @@ It's all a meme-within-a-meme. A meta-meme.
 3. Store our community MemeFrame in your process' memory:
 
 ```lua
-MEMEFRAME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
+MEMEFRAME = "-a4T7XLMDGTcu8_preKXdUT6__4sJkMhYLEJZkXUYd0"
 ```
 
 4. Get some CRED by completing [Quests on `ao`](https://cookbook_ao.g8way.io/tutorials/begin/index.html).

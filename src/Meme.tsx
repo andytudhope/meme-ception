@@ -5,7 +5,7 @@ import { PermissionType } from 'arconnect'
 
 import Footer from './Footer';
 
-const MEME = "rKKhazli2Av4BcIzH95fSKSO2faM6_mzJhkPD4FJHUQ"
+const MEME = "-a4T7XLMDGTcu8_preKXdUT6__4sJkMhYLEJZkXUYd0"
 const CRED = "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc"
 
 const permissions: PermissionType[] = [

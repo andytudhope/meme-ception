@@ -19,7 +19,7 @@ local json = require('json')
 Votes = Votes or {}
 -- $CRED
 BuyToken = "Sa0iBLPNyJQrwpTTG-tWLQU-1QeUAJA73DdxGGiKoJc"
-MaxMint = 1000000
+MaxMint = 1000000000
 Minted = 0
 -- INITIAL FRAME ID
 FrameID = FrameID or Inbox[1].FrameID 
