@@ -108,6 +108,15 @@ Handlers.prepend("Get-Info", function (m) return m.Action == "Get-Info" end, fun
   print('Send Info to ' .. m.From)
 end)
 
+-- GetStakers
+Handlers.prepend("Get-Stakers", function (m) return m.Action == "Get-Stakers" end, function (m)
+  Send({
+    Target = m.From,
+    Data = json.encode(Stakers)
+  })
+  print('Send Stakers to ' .. m.From)
+end)
+
 
 -- MINT
 Handlers.prepend(

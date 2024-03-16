@@ -28,6 +28,7 @@ function Meme() {
     const [stakeValue, setStakeValue] = useState('')
     const [swapSuccess, setSwapSuccess] = useState(false)
     const [stakeSuccess, setStakeSuccess] = useState(false)
+    const [staker, setStaker] = useState(false)
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -166,8 +167,31 @@ function Meme() {
                 }
             }
         };
+
+        const fetchStakers = async () => {
+            if (address) {
+                try {
+                    const messageResponse = await dryrun({
+                        process: MEME,
+                        tags: [
+                            { name: 'Action', value: 'Get-Stakers' },
+                        ],
+                    });
+                    const stakers = JSON.parse(messageResponse.Messages[0].Data)
+                    const stakerAddresses = Object.keys(stakers)
+                    const isStaker = stakerAddresses.includes(address)
+                    if (isStaker) {
+                        setStaker(true)
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+
         fetchBalance(MEME)
         fetchBalance(CRED)
+        fetchStakers()
     }, [address, swapSuccess])
 
 	return (
@@ -263,6 +287,7 @@ function Meme() {
                     )  
                 }
                 { stakeSuccess ? <div><p className='text-sm text-center my-2'>You have staked MEME successfully. Please visit the <Link className='font-bold underline' to={"/vote/"}>vote page</Link> to cast votes on different memeframes!</p></div> : <div></div>}
+                { staker ? <p className='text-sm text-center my-2'>You are already staking!<br/>Please visit the <Link className='font-bold underline' to={"/vote/"}>vote page</Link> to cast your vote.</p> : <div></div>}
             </div>
             <Footer />
         </div>
