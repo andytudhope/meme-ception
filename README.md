@@ -46,3 +46,34 @@ You can find us chatting in super-shadowy, meme-lords only chats somewhere in `a
 1. Copy the [chat.lua file](/process/chat.lua) into the same directory you're running `aos` from.
 2. Launch `aos`.
 3. Run `.load chat.lua` in your interactive console and follow the instructions to find us.
+
+## Run locally
+
+1. Get the code:
+```bash
+git clone git@github.com:andytudhope/meme-ception.git
+```
+or
+```bash
+git clone https://github.com/andytudhope/meme-ception.git
+```
+
+2. Install dependencies (using node v20 or above):
+```bash
+npm i
+```
+
+3. Run the app:
+```bash
+npm run start
+```
+
+4. If you'd like to build your version and upload it to Arweave:
+```bash
+npm run build
+```
+
+5. I use an archived version of `arweave deploy`, it's prob better to use Irys etc.
+```bash
+arweave deploy-dir build/ --key-file <path_to_keyfile>
+```
