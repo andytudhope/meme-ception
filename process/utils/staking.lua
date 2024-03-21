@@ -21,6 +21,17 @@ Handlers.unstake = function(msg)
   ao.send({Target = msg.From, Data = "Successfully unstaked " .. msg.Quantity})
 end
 
+-- wrap function to continue handler flow
+local function continue(fn)
+  return function (msg)
+    local result = fn(msg)
+    if (result) == -1 then
+      return "continue"
+    end
+    return result
+  end
+end
+
 -- Registering Handlers
 Handlers.add("stake",
   continue(Handlers.utils.hasMatchingTag("Action", "Stake")), Handlers.stake)
