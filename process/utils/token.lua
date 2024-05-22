@@ -193,9 +193,11 @@ Handlers.add('reclaim', Handlers.utils.hasMatchingTag('Action', 'Reclaim'), func
           local after = qty - amount
           Balances[m.From] = Balances[m.From] - after
           Stakers[m.From] = nil
+          ao.send({Target = BuyToken, Action = 'Transfer', Recipient = m.From, Quantity = m.Quantity})
       else
           -- we just need to subtract the reclaimed amount from what is currently staked
           Stakers[m.From].amount = Stakers[m.From].amount - qty
+          ao.send({Target = BuyToken, Action = 'Transfer', Recipient = m.From, Quantity = m.Quantity})
       end
   else
       -- there is no stake and we just subtract from balance directly
