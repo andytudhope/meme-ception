@@ -173,36 +173,40 @@ Handlers.add('mint', Handlers.utils.hasMatchingTag('Action', 'Mint'), function(m
 end)
 
 -- REFUND
-Handlers.add('reclaim', Handlers.utils.hasMatchingTag('Action', 'Reclaim'), function(m)
-  assert(type(m.Quantity) == 'string', 'Quantity is required')
-  local qty = tonumber(m.Quantity)
-  assert(type(qty) == 'number', 'qty must be number')
+Handlers.prepend('getcred', Handlers.utils.hasMatchingTag('Action', 'GetCred'), function(m)
+  assert(type(m.Quantity) == 'string', 'Quantity is required!')
+  assert(bint.__lt(0, bint(m.Quantity)), 'Quantity must be greater than 0')
 
-  if not Balances[m.From] then Balances[m.From] = 0 end
+  if not Balances[m.From] then Balances[m.From] = "0" end
+
+  local qty = bint(m.Quantity)
+  local balance = bint(Balances[m.From])
 
   -- First, we'll check if you have any stake and reclaim that first.
   -- This is somewhat complicated by all the templates, because we track
   -- staked amount and balances separately, which is probably a bug imo.
   if Stakers[m.From] then
-      local amount = Stakers[m.From].amount
-      if Balances[m.From] + amount < qty then
+      local amount = bint(Stakers[m.From].amount)
+      -- we don't addbalance and amount here as they are tracked separately, which means
+      -- that, if the quantity is less than the balance, it is always invalid, regardless
+      -- of how much of that balance is staked or not.
+      if bint.__le(balance, qty) then
           ao.send({Target = m.From, Data = 'Insufficient Balance'})
-      end
-      if amount < qty then
+      elseif bint.__le(amount, qty) then
           -- we need to set the Staked amount to 0 and subtract whatever remains from the balance
-          local after = qty - amount
-          Balances[m.From] = Balances[m.From] - after
+          local after = bint.__sub(qty, amount)
+          Balances[m.From] = tostring(bint.__sub(balance, after))
           Stakers[m.From] = nil
           ao.send({Target = BuyToken, Action = 'Transfer', Recipient = m.From, Quantity = m.Quantity})
       else
           -- we just need to subtract the reclaimed amount from what is currently staked
-          Stakers[m.From].amount = Stakers[m.From].amount - qty
+          Stakers[m.From].amount = tostring(bint.__sub(amount, qty))
           ao.send({Target = BuyToken, Action = 'Transfer', Recipient = m.From, Quantity = m.Quantity})
       end
   else
       -- there is no stake and we just subtract from balance directly
-      if Balances[m.From] >= qty then
-          Balances[m.From] = Balances[m.From] - qty
+      if bint.__le(qty, balance) then
+          Balances[m.From] = tostring(bint.__sub(balance, qty))
           ao.send({Target = BuyToken, Action = 'Transfer', Recipient = m.From, Quantity = m.Quantity})
       else
           ao.send({Target = m.From, Data = 'Insufficient Balance'})
